@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>¿Quién es Quién?</title>
+	<link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url("images/background.jpg");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body id="bodyGame">
+	<h1>¿Quién es Quién?</h1>
+	<div id="tablero">
+		<div class="fila">
+			<div id="div-alex" class="carta" onclick="girarCarta('div-alex')">
+                <div class="carta-frontal"><img class = "personaje" src="images/alex.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="div-alfred" class="carta" onclick="girarCarta('div-alfred')">
+                <div class="carta-frontal"><img src="images/alfred.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-anita" class="carta" onclick="girarCarta('div-anita')">
+                <div class="carta-frontal"><img src="images/anita.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-anne" class="carta" onclick="girarCarta('div-anne')">
+                <div class="carta-frontal"><img src="images/anne.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-bernard" class="carta" onclick="girarCarta('div-bernard')">
+                <div class="carta-frontal"><img src="images/bernard.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-bill" class="carta" onclick="girarCarta('div-bill')">
+                <div class="carta-frontal"><img src="images/bill.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+		</div>
+		<div class="fila">
+			<div id="div-charles" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/charles.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="div-claire" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/claire.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="div-david" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/david.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-eric" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/eric.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-frans" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/frans.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-george" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/george.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+		</div>
+		<div class="fila">
+			<div id="div-herman" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/herman.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-joe" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/joe.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-maria" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/maria.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-max" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/max.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-paul" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/paul.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="div-peter" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/peter.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+		</div>
+		<div class="fila">
+			<div id="div-philip" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/philip.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="div-richard" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/richard.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="div-robert" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/robert.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="div-sam" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/sam.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="div-susan" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/susan.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="div-tom" class="carta" onclick="girarCarta('carta1')">
+                <div class="carta-frontal"><img src="images/tom.jpg"></div>
+                <div class="carta-trasera"><img src="images/imagen-trasera.jpg"></div>
+            </div> 
+		</div>
+	</div>
+    <script src="scripts.js"></script>
+</body>
+</html>

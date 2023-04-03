@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>¿Quién es Quién?</title>
+	<link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url("images/background.jpg");
+            background-size: cover;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+	<h1>¿Quién es Quién?2</h1>
+<div id="tablero-container">
+	<div id="tablero" class = "tablero tablero-activo">
+		<div class="fila">
+			<div id="carta-1" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje" src="images/alex.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje" src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="carta-2" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/alfred.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-3" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/anita.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-4" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/anne.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-5" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/bernard.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-6" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/charles.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+		</div>
+		<div class="fila">
+			<div id="carta-7" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/bill.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="carta-8" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/claire.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+			
+			<div id="carta-9" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/david.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-10" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/eric.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-11" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/frans.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-12" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/george.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+		</div>
+		<div class="fila">
+			<div id="carta-13" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/herman.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-14" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/joe.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-15" class="carta" onclick="elegirPersonaje(this)" >
+                <div class="carta-frontal"><img class = "personaje"src="images/maria.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-16" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/max.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-17" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/paul.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+
+			<div id="carta-18" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/peter.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+		</div>
+		<div class="fila">
+			<div id="carta-19" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/philip.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="carta-20" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/richard.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="carta-21" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/robert.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="carta-22" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/sam.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="carta-23" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/susan.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+
+			<div id="carta-24" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/tom.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+		</div>
+        <div id="div-selected" class="carta girada" style="display:none;">
+            <div class="carta-frontal"><img class = "personaje"src=""></div>
+            <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+        </div> 
+	</div>
+
+
+    <div id="tablero2" class = "tablero tablero-oculto">
+        <div class="fila">
+            <div id="carta-1" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje" src="images/alex.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje" src="images/imagen-trasera.jpg"></div>
+            </div>
+            
+            <div id="carta-2" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/alfred.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-3" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/anita.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-4" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/anne.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-5" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/bernard.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-6" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/charles.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+        </div>
+        <div class="fila">
+            <div id="carta-7" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/bill.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+            
+            <div id="carta-8" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/claire.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+            
+            <div id="carta-9" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/david.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-10" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/eric.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-11" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/frans.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-12" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/george.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+        </div>
+        <div class="fila">
+            <div id="carta-13" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/herman.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-14" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/joe.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-15" class="carta" onclick="elegirPersonaje(this)" >
+                <div class="carta-frontal"><img class = "personaje"src="images/maria.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-16" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/max.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-17" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/paul.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div>
+    
+            <div id="carta-18" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/peter.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+        </div>
+        <div class="fila">
+            <div id="carta-19" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/philip.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+    
+            <div id="carta-20" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/richard.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+    
+            <div id="carta-21" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/robert.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+    
+            <div id="carta-22" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/sam.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+    
+            <div id="carta-23" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/susan.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+    
+            <div id="carta-24" class="carta" onclick="elegirPersonaje(this)">
+                <div class="carta-frontal"><img class = "personaje"src="images/tom.jpg"></div>
+                <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+            </div> 
+        </div>
+        <div id="div-selected" class="carta girada" style="display:none;">
+            <div class="carta-frontal"><img class = "personaje"src=""></div>
+            <div class="carta-trasera"><img class = "personaje"src="images/imagen-trasera.jpg"></div>
+        </div> 
+    </div>
+</div>
+    <div class="botones">
+        <form id="formPlay">
+            <button id="btnStartId" type="submit">Empezar partida</button>
+        </form>   
+        <form id="formSelect" style="display:none;">
+            <button id="btnSelectId" type="submit">Confirmar eleccion</button>
+        </form>     
+    </div>
+
+    <button id="mostrar-formulario">Mostrar formulario</button>
+
+    <div id="formulario-container" class="animate__animated">
+        <form id="miFormulario">
+          <div class="fila-seleccionables">
+            <select name="opciones1" id="opciones1">
+              <option value="1">¿Tiene bigote</option>
+              <option value="2">¿Tiene sombrero</option>
+              <option value="3">¿Tiene mejillas</option>
+              <option value="4">¿Tiene gafas</option>
+              <option value="5">¿Es hombre</option>
+              <option value="6">¿Tiene ojos marrones</option>
+              <option value="7">¿Tiene el pelo rojo</option>
+              <option value="8">¿Tiene el pelo rubio</option>
+              <option value="9">¿Tiene el pelo negro</option>
+              <option value="10">¿Tiene el pelo castaño</option>
+              <option value="11">¿Tiene pelo</option>               
+            </select>
+          </div>
+      
+          <div class="fila-seleccionables">
+            <select name="opciones2" id="opciones2">
+              <option value="y">Y</option>
+              <option value="o">O</option>
+              <option value="n">?</option>
+            </select>
+          </div>
+      
+          <div class="fila-seleccionables">
+            <select name="opciones3" id="opciones3">
+                <option value="1" hidden>tiene bigote?</option>
+                <option value="2" selected>tiene sombrero?</option>
+                <option value="3">tiene mejillas?</option>
+                <option value="4">tiene gafas?</option>
+                <option value="5">es hombre?</option>
+                <option value="6">tiene ojos marrones?</option>
+                <option value="7">tiene el pelo rojo?</option>
+                <option value="8">tiene el pelo rubio?</option>
+                <option value="9">tiene el pelo negro?</option>
+                <option value="10">tiene el pelo castaño?</option>
+                <option value="11">tiene pelo?</option> 
+            </select>
+          </div>
+      
+          <button type="submit">Aceptar</button>
+        </form>
+      </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
