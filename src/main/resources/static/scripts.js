@@ -41,26 +41,6 @@ function girarCarta(id) {
       carta.getElementsByClassName('carta-trasera')[0].classList.toggle('show');
     }, 500);
   }
-  function cartaElegida(id) {
-    clearInterval(intervalo);
-    var cartaId = id.getAttribute('id');
-    var cartaElegida = document.getElementById(cartaId);
-    var cartas = document.querySelectorAll('.carta');
-    cartas.forEach(function(carta) {
-      carta.classList.remove('animar');
-      carta.classList.remove('elegida');
-      carta.style.zIndex = 1; 
-    });
-    cartaElegida.classList.toggle('elegida');
-    cartaElegida.style.zIndex = 10; 
-
-
-
-    var src =cartaElegida.querySelector(".carta-frontal img").getAttribute("src");
-
-    var cartaSecreta = document.getElementById("carta-secreta");
-    cartaSecreta.querySelector(".carta-trasera img").setAttribute("src", src);
-  }
   //Se declara el intervalo de forma global para poder eliminarlo cuando necesite
   var intervalo;
   function animarCartas() {
@@ -86,18 +66,6 @@ function girarCarta(id) {
       cartaGirada = document.querySelector('.carta.girada');
     }, 650);
   }
-  function elegirPersonaje(personaje) {
-
-    var src = personaje.querySelector("img").getAttribute("src");
-
-    var divSeleccionado = document.getElementById("div-selected");
-    divSeleccionado.querySelector("img").setAttribute("src", src);
-
-    divSeleccionado.style.display = "block";
-
-    var formPlay = document.getElementById("formSelect");
-    formPlay.style.display = "block";
-}
 
 // Obtener referencia al formulario "formPlay"
 var formPlay = document.getElementById("formPlay");
@@ -118,7 +86,7 @@ formPlay.addEventListener("submit", function(event) {
     animarCartas();
 });
 
-var formPlay = document.getElementById("formSelect");
+/*var formPlay = document.getElementById("formSelect");
 
 formPlay.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -130,7 +98,8 @@ formPlay.addEventListener("submit", function(event) {
     xhr.open("POST", "/selectCharacter?srcCartaFrontal=" + srcCartaFrontal, true);
     xhr.send();
 
-});
+});*/
+
 
 //Formulario
 var mostrarFormularioBtn = document.getElementById('mostrar-formulario');
@@ -252,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-/*Boton de confirmar seleccion*/
+/*Boton de confirmar seleccion secreta*/
 
 function mostrarBotonSeleccion() {
   const boton = document.querySelector('.confirmar-seleccion');
@@ -264,5 +233,43 @@ function ocultarBotonSeleccion() {
 
   setTimeout(() => boton.classList.add('ocultarBotonClick'), 100);
   girarCartaSecreta('carta-secreta');
+  enviarSeleccion();
 
+  
+  var cartas = document.querySelectorAll('.carta');
+  cartas.forEach(function(carta) {
+    carta.classList.remove('elegida');
+    carta.style.zIndex = 1; 
+  });
+}
+
+/* Logica de la seleccion de carta secreta */
+
+function cartaElegida(id) {
+  clearInterval(intervalo);
+  var cartaId = id.getAttribute('id');
+  var cartaElegida = document.getElementById(cartaId);
+  var cartas = document.querySelectorAll('.carta');
+  cartas.forEach(function(carta) {
+    carta.classList.remove('animar');
+    carta.classList.remove('elegida');
+    carta.style.zIndex = 1; 
+  });
+  cartaElegida.classList.toggle('elegida');
+  cartaElegida.style.zIndex = 10; 
+
+
+
+  var src =cartaElegida.querySelector(".carta-frontal img").getAttribute("src");
+  var cartaSecreta = document.getElementById("carta-secreta");
+  cartaSecreta.querySelector(".carta-trasera img").setAttribute("src", src);
+}
+//Enviar seleccion personaje
+function enviarSeleccion() {
+  var cartaFrontal = document.querySelector('#carta-secreta .carta-trasera img');
+  var srcCartaFrontal = cartaFrontal.getAttribute('src');
+    
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/selectCharacter?srcCartaFrontal=" + srcCartaFrontal, true);
+  xhr.send();
 }
