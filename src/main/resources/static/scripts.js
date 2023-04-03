@@ -4,21 +4,24 @@ miBody.onload = function() {
   animarCartas();
 };
 }
+
+/*
 const tablero = document.querySelector('#tablero');
-const tablero2 = document.querySelector('#tablero2');
+const tablero2 = document.querySelector('#tableroRival');
 
 tablero.addEventListener('click', () => {
   tablero.classList.remove('tablero-activo');
   tablero.classList.add('tablero-oculto');
-  tablero2.classList.remove('tablero-oculto');
-  tablero2.classList.add('tablero-activo');
+  tableroRival.classList.remove('tablero-oculto');
+  tableroRival.classList.add('tablero-activo');
 });
 tablero2.addEventListener('click', () => {
-  tablero2.classList.remove('tablero-activo');
-  tablero2.classList.add('tablero-oculto');
+  tableroRival.classList.remove('tablero-activo');
+  tableroRival.classList.add('tablero-oculto');
   tablero.classList.remove('tablero-oculto');
   tablero.classList.add('tablero-activo');
 });
+*/
 function girarCarta(id) {
     var carta = document.getElementById(id);
     carta.classList.toggle('girada');
@@ -29,6 +32,37 @@ function girarCarta(id) {
     }, 500);
   }
 
+  function girarCartaSecreta(id) {
+    var carta = document.getElementById(id);
+    carta.classList.toggle('girada');
+  
+    setTimeout(function() {
+      carta.getElementsByClassName('carta-frontal')[0].classList.toggle('oculta');
+      carta.getElementsByClassName('carta-trasera')[0].classList.toggle('show');
+    }, 500);
+  }
+  function cartaElegida(id) {
+    clearInterval(intervalo);
+    var cartaId = id.getAttribute('id');
+    var cartaElegida = document.getElementById(cartaId);
+    var cartas = document.querySelectorAll('.carta');
+    cartas.forEach(function(carta) {
+      carta.classList.remove('animar');
+      carta.classList.remove('elegida');
+      carta.style.zIndex = 1; 
+    });
+    cartaElegida.classList.toggle('elegida');
+    cartaElegida.style.zIndex = 10; 
+
+
+
+    var src =cartaElegida.querySelector(".carta-frontal img").getAttribute("src");
+
+    var cartaSecreta = document.getElementById("carta-secreta");
+    cartaSecreta.querySelector(".carta-trasera img").setAttribute("src", src);
+  }
+  //Se declara el intervalo de forma global para poder eliminarlo cuando necesite
+  var intervalo;
   function animarCartas() {
     var cartas = document.querySelectorAll('.carta');
     var cartaGirada = document.querySelector('.carta.girada');
@@ -39,7 +73,7 @@ function girarCarta(id) {
       carta.setAttribute('data-retraso', retraso);
     });
   
-    var intervalo = setInterval(function() {
+    intervalo = setInterval(function() {
       
   
       cartas.forEach(function(carta) {
@@ -217,3 +251,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
+/*Boton de confirmar seleccion*/
+
+function mostrarBotonSeleccion() {
+  const boton = document.querySelector('.confirmar-seleccion');
+  setTimeout(() => boton.classList.add('mostrarBoton'), 100);
+}
+
+function ocultarBotonSeleccion() {
+  const boton = document.querySelector('.confirmar-seleccion');
+
+  setTimeout(() => boton.classList.add('ocultarBotonClick'), 100);
+  girarCartaSecreta('carta-secreta');
+
+}

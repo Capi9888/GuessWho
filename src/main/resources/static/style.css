@@ -9,9 +9,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #085e01;
+  background-color: #2f06c4;
   flex-direction: column;
-  transition: transform 0.5s ease;
+  transition: transform 1s ease;
+}
+.tableroRival {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  border: 5px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #530505;
+  flex-direction: column;
+  transition: transform 1s ease;
 }
 #tablero-container {
   display: flex;
@@ -19,11 +33,17 @@
   overflow: hidden;
 }
 .tablero-oculto {
+  position: fixed;
+  top: 50%;
+  left: 50%;
   transform: translateX(1000%);
 }
 
 .tablero-activo {
-  transform: translateX(50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .fila {
@@ -32,7 +52,7 @@
 }
 
 .animar {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 /* Estilo base de la carta */
 .carta {
@@ -90,11 +110,17 @@
     height: 100%;
     object-fit: cover; /* Ajusta la imagen al contenedor sin deformarla */
 }
-
 .personaje {
 	border: 3px solid yellow;
 	border-radius: 10px;
   }
+.elegida {
+  box-shadow: 0 0 15px 6px rgba(0, 255, 0, 1);
+  transform: scale(1.15);
+  transition: transform 0.2s ease-in-out;
+  border-radius: 10px;
+
+}
 
   .botones {
     position: fixed;
@@ -169,4 +195,84 @@
   
   button:hover {
     background-color: #3e8e41;
+  }
+
+  /* Boton de confirmar seleccion */
+  .confirmar-seleccion {
+    position: fixed;
+    top: 40%;
+    right: 10%;
+    transform: translateY(-50%);
+    width: 12.5%;
+    height: 10vh;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    /* Agrega estilos de transición para una animación suave */
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .confirmar-seleccion:hover {
+    background-color: #3e8e41;
+  }
+  
+  .confirmar-seleccion:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  @keyframes entrada-boton {
+    0% {
+      transform: translateX(100%);
+    }
+    60% {
+      transform: translateX(-10%);
+    }
+    80% {
+      transform: translateX(5%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  @keyframes salida-boton {
+    0% {
+      transform: translateX(0%);
+    }
+    20% {
+      transform: translateX(-10%);
+    }
+    40% {
+      transform: translateX(15%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .ocultarBoton {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(100%);
+  }
+
+  .mostrarBoton {
+    opacity: 1;
+    pointer-events: auto;
+    animation-name: entrada-boton;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+  .ocultarBotonClick {
+    opacity: 0;
+    pointer-events: auto;
+    animation-name: salida-boton;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+  .confirmar-seleccion:active {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
   }
