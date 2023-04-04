@@ -4,24 +4,23 @@ miBody.onload = function() {
   animarCartas();
 };
 }
-
-/*
-const tablero = document.querySelector('#tablero');
-const tablero2 = document.querySelector('#tableroRival');
-
-tablero.addEventListener('click', () => {
-  tablero.classList.remove('tablero-activo');
-  tablero.classList.add('tablero-oculto');
-  tableroRival.classList.remove('tablero-oculto');
-  tableroRival.classList.add('tablero-activo');
-});
-tablero2.addEventListener('click', () => {
-  tableroRival.classList.remove('tablero-activo');
-  tableroRival.classList.add('tablero-oculto');
-  tablero.classList.remove('tablero-oculto');
-  tablero.classList.add('tablero-activo');
-});
-*/
+/* Funcion para cambiar los tableros */
+function cambiarTablero() {
+  const tablero = document.querySelector('#tablero');
+  const tableroRival = document.querySelector('#tableroRival');
+  
+  if (tablero.classList.contains('tablero-activo')) {
+    tablero.classList.remove('tablero-activo');
+    tablero.classList.add('tablero-oculto');
+    tableroRival.classList.remove('tablero-oculto');
+    tableroRival.classList.add('tablero-activo');
+  } else {
+    tableroRival.classList.remove('tablero-activo');
+    tableroRival.classList.add('tablero-oculto');
+    tablero.classList.remove('tablero-oculto');
+    tablero.classList.add('tablero-activo');
+  }
+}
 function girarCarta(id) {
     var carta = document.getElementById(id);
     carta.classList.toggle('girada');
@@ -84,6 +83,12 @@ formPlay.addEventListener("submit", function(event) {
     // Enviar la solicitud sin datos adicionales
     xhr.send();
     animarCartas();
+    showMensajeInfoElegir();
+    setTimeout(() => {
+      // Ocultar el mensaje
+      closeMensajeInfo();
+    }, 2000);
+
 });
 
 /*var formPlay = document.getElementById("formSelect");
@@ -264,6 +269,7 @@ function cartaElegida(id) {
   var cartaSecreta = document.getElementById("carta-secreta");
   cartaSecreta.querySelector(".carta-trasera img").setAttribute("src", src);
 }
+
 //Enviar seleccion personaje
 function enviarSeleccion() {
   var cartaFrontal = document.querySelector('#carta-secreta .carta-trasera img');
@@ -272,4 +278,57 @@ function enviarSeleccion() {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/selectCharacter?srcCartaFrontal=" + srcCartaFrontal, true);
   xhr.send();
+  showMensajeInfo();
+  setTimeout(() => {
+    // Ocultar el mensaje
+    closeMensajeInfo();
+  }, 2000);
+}
+
+//Controlar los mensajes de informacion/turno
+
+function showMensajeInfo() {
+  const titulo = document.querySelector('#turn-modal h2');
+  titulo.textContent = '¡Es tu turno!';
+
+  const parrafo = document.querySelector('#turn-modal p');
+  parrafo.innerHTML = 'Elige una pregunta para adivinar el personaje rival';
+
+  var modal = document.getElementById("turn-modal");
+  modal.style.display = "block";
+
+}
+
+function showMensajeInfoRival() {
+  const titulo = document.querySelector('#turn-modal h2');
+  titulo.textContent = '¡Es turno del rival!';
+
+  const parrafo = document.querySelector('#turn-modal p');
+  parrafo.innerHTML = 'Espera a que elija su pregunta';
+
+  var modal = document.getElementById("turn-modal");
+  modal.style.display = "block";
+
+}
+
+function showMensajeInfoElegir() {
+  const titulo = document.querySelector('#turn-modal h2');
+  titulo.textContent = '¡Es tu turno!';
+
+  const parrafo = document.querySelector('#turn-modal p');
+  parrafo.innerHTML = 'Elige a tu personaje secreto';
+
+  var modal = document.getElementById("turn-modal");
+  modal.style.display = "block";
+
+}
+
+function closeMensajeInfo() {
+  var mensajeInfo = document.getElementById("turn-modal");
+  const mensajeInfoContent = document.querySelector(".mensajeInfo-content");
+  mensajeInfoContent.classList.add("hide");
+  setTimeout(() => {
+    mensajeInfo.style.display = "none";
+    mensajeInfoContent.classList.remove("hide");
+  }, 500);
 }
