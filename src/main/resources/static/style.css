@@ -289,20 +289,20 @@
   }
   
   .mensajeInfo-content {
-    background-color: rgba(255, 255, 0, 0.5);
+    background-color: rgba(182, 28, 28, 0.5);
     margin: 15% auto;
     padding: 20px;
     border-radius: 5px;
     width: 60%;
     text-align: center;
-    box-shadow: 0 0 20px #ffdd00;
+    box-shadow: 0 0 20px #ad0303;
     animation: slide-in 0.5s ease-out forwards;
   }
   
   h2 {
     font-size: 3em;
     font-family: 'Press Start 2P', cursive;
-    color: #ffdd00;
+    color: #03ad1a;
     text-shadow: 2px 2px #000;
     margin-bottom: 20px;
   }

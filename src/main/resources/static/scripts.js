@@ -297,8 +297,27 @@ function showMensajeInfo() {
   var modal = document.getElementById("turn-modal");
   modal.style.display = "block";
 
+ const mensajeInfo = document.querySelector('.mensajeInfo-content');
+  mensajeInfo.style.backgroundColor = 'rgb(87, 180, 25, 0.5)';
+  mensajeInfo.style.color = '#03ad1a';
+  mensajeInfo.style.boxShadow = '0 0 20px #03ad1a';
 }
 
+function showMensajeInfoElegir() {
+  const titulo = document.querySelector('#turn-modal h2');
+  titulo.textContent = '¡Empieza la partida!';
+
+  const parrafo = document.querySelector('#turn-modal p');
+  parrafo.innerHTML = 'Elige a tu personaje secreto';
+
+  var modal = document.getElementById("turn-modal");
+  modal.style.display = "block";
+
+  const mensajeInfo = document.querySelector('.mensajeInfo-content');
+  mensajeInfo.style.backgroundColor = 'rgb(87, 180, 25, 0.5)';
+  mensajeInfo.style.color = '#03ad1a';
+  mensajeInfo.style.boxShadow = '0 0 20px #03ad1a';
+}
 function showMensajeInfoRival() {
   const titulo = document.querySelector('#turn-modal h2');
   titulo.textContent = '¡Es turno del rival!';
@@ -308,19 +327,11 @@ function showMensajeInfoRival() {
 
   var modal = document.getElementById("turn-modal");
   modal.style.display = "block";
-
-}
-
-function showMensajeInfoElegir() {
-  const titulo = document.querySelector('#turn-modal h2');
-  titulo.textContent = '¡Es tu turno!';
-
-  const parrafo = document.querySelector('#turn-modal p');
-  parrafo.innerHTML = 'Elige a tu personaje secreto';
-
-  var modal = document.getElementById("turn-modal");
-  modal.style.display = "block";
-
+  
+  const mensajeInfo = document.querySelector('.mensajeInfo-content');
+  mensajeInfo.style.backgroundColor = 'rgb(182, 28, 28, 0.5)';
+  mensajeInfo.style.color = '#ad0303';
+  mensajeInfo.style.boxShadow = '0 0 20px #ad0303;';
 }
 
 function closeMensajeInfo() {
