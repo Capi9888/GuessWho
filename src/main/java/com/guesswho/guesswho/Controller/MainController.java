@@ -39,30 +39,24 @@ public class MainController {
 
     @PostMapping("/selectCharacter")
     public  @ResponseBody void selectCharacter(@RequestParam("srcCartaFrontal") String srcCartaFrontal) {
-        System.out.println("Llego1");
         String nombre = srcCartaFrontal.replace("images/", "");
         nombre = nombre.replace(".jpg", "");
         game.setWantedGamePersonByName(nombre);
     }
 
     @PostMapping("/guess")
-    public @ResponseBody String manejarPeticion(@RequestBody Map<String, String> datosFormulario) {
+    public @ResponseBody List<Integer> manejarPeticion(@RequestBody Map<String, String> datosFormulario) {
         String caracteristica1 = datosFormulario.get("opciones1");
         String separador = datosFormulario.get("opciones2");
         String caracteristica2String = datosFormulario.get("opciones3");
 
         List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String);
         Collections.shuffle(idGuesseds);
-        // crear una cadena de JavaScript para llamar al método "girarCarta" para cada elemento en la lista "idGuesseds"
-        StringBuilder script = new StringBuilder();
-        int tiempoEspera = 0;
-        for (Integer idGuess : idGuesseds) {
-        script.append("setTimeout(function() { girarCarta('carta-").append(idGuess).append("'); }, ").append(tiempoEspera).append(");\n");
-        tiempoEspera += 500; // incrementar el tiempo de espera en 500ms por cada iteración
-    }
 
-            return script.toString();
+    
+            return idGuesseds;
 
 
     }
 }
+

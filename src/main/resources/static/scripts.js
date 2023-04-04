@@ -84,39 +84,18 @@ formPlay.addEventListener("submit", function(event) {
     xhr.send();
     animarCartas();
     showMensajeInfoElegir();
-    setTimeout(() => {
-      // Ocultar el mensaje
-      closeMensajeInfo();
-    }, 2000);
 
 });
-
-/*var formPlay = document.getElementById("formSelect");
-
-formPlay.addEventListener("submit", function(event) {
-    event.preventDefault();
-    
-    var cartaFrontal = document.querySelector('#div-selected .carta-frontal img');
-    var srcCartaFrontal = cartaFrontal.getAttribute('src');
-    
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/selectCharacter?srcCartaFrontal=" + srcCartaFrontal, true);
-    xhr.send();
-
-});*/
-
 
 //Formulario
-var mostrarFormularioBtn = document.getElementById('mostrar-formulario');
 var formularioContainer = document.getElementById('formulario-container');
 var enviarBtn = document.getElementById('miFormulario').querySelector('button[type="submit"]');
-
+/* Desplegable de preguntas */
+function showDesplegablePreguntas() {
 // Mostrar el formulario al hacer clic en el botón
-mostrarFormularioBtn.addEventListener('click', function() {
   formularioContainer.style.display = 'block';
   formularioContainer.classList.add('animate__animated', 'animate__slideInLeft');
-});
-
+}
 // Ocultar el formulario al hacer clic en el botón Enviar
 enviarBtn.addEventListener('click', function(e) {
   e.preventDefault();
@@ -129,37 +108,50 @@ enviarBtn.addEventListener('click', function(e) {
     }
   });
 
-  // Obtener los valores de los campos del formulario
-  const opciones1 = form.opciones1.value;
-  const opciones2 = form.opciones2.value;
-  const opciones3 = form.opciones3.value;
+// Obtener los valores de los campos del formulario
+const opciones1 = form.opciones1.value;
+const opciones2 = form.opciones2.value;
+const opciones3 = form.opciones3.value;
 
-  // Crear una nueva solicitud AJAX
-  const xhr = new XMLHttpRequest();
+// Crear una nueva solicitud AJAX
+const xhr = new XMLHttpRequest();
 
-  // Configurar la solicitud AJAX
-  xhr.open("POST", "/guess");
-  xhr.setRequestHeader("Content-Type", "application/json");
+// Configurar la solicitud AJAX
+xhr.open("POST", "/guess");
+xhr.setRequestHeader("Content-Type", "application/json");
 
-  // Manejar la respuesta de la solicitud AJAX
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // La solicitud se ha completado correctamente
-      var scriptElement = document.createElement("script");
-    scriptElement.textContent = xhr.responseText;
-    document.body.appendChild(scriptElement);
-    } else {
-      // Ha ocurrido un error durante la solicitud
-      console.error(xhr.statusText);
+// Manejar la respuesta de la solicitud AJAX
+xhr.onload = function() {
+  if (xhr.status === 200) {
+    // La solicitud se ha completado correctamente
+    const idGuesseds = JSON.parse(xhr.responseText);
+    let tiempoEspera = 0;
+    let contadorCartasGiradas = 0;
+    for (const idGuess of idGuesseds) {
+      setTimeout(function() {
+        girarCarta(`carta-${idGuess}`);
+        contadorCartasGiradas++;
+        if (contadorCartasGiradas === idGuesseds.length) {
+          setTimeout(function() {
+            cambiarTablero();
+            showMensajeInfoRival();
+          }, 1500);
+        }
+      }, tiempoEspera);
+      tiempoEspera += 500; // incrementar el tiempo de espera en 500ms por cada iteración
     }
-  };
+  } else {
+    // Ha ocurrido un error durante la solicitud
+    console.error(xhr.statusText);
+  }
+};
 
-  // Enviar la solicitud AJAX con los datos del formulario
-  xhr.send(JSON.stringify({
-    opciones1: opciones1,
-    opciones2: opciones2,
-    opciones3: opciones3
-  }));
+// Enviar la solicitud AJAX con los datos del formulario
+xhr.send(JSON.stringify({
+  opciones1: opciones1,
+  opciones2: opciones2,
+  opciones3: opciones3
+}));
 });
 
 document.getElementById('miFormulario').addEventListener('submit', function(event) {
@@ -279,10 +271,11 @@ function enviarSeleccion() {
   xhr.open("POST", "/selectCharacter?srcCartaFrontal=" + srcCartaFrontal, true);
   xhr.send();
   showMensajeInfo();
+  
   setTimeout(() => {
     // Ocultar el mensaje
-    closeMensajeInfo();
-  }, 2000);
+    showDesplegablePreguntas();
+  }, 2500);
 }
 
 //Controlar los mensajes de informacion/turno
@@ -301,6 +294,11 @@ function showMensajeInfo() {
   mensajeInfo.style.backgroundColor = 'rgb(87, 180, 25, 0.5)';
   mensajeInfo.style.color = '#03ad1a';
   mensajeInfo.style.boxShadow = '0 0 20px #03ad1a';
+
+  setTimeout(() => {
+    // Ocultar el mensaje
+    closeMensajeInfo();
+  }, 2000);
 }
 
 function showMensajeInfoElegir() {
@@ -317,7 +315,13 @@ function showMensajeInfoElegir() {
   mensajeInfo.style.backgroundColor = 'rgb(87, 180, 25, 0.5)';
   mensajeInfo.style.color = '#03ad1a';
   mensajeInfo.style.boxShadow = '0 0 20px #03ad1a';
+
+  setTimeout(() => {
+    // Ocultar el mensaje
+    closeMensajeInfo();
+  }, 2000);
 }
+
 function showMensajeInfoRival() {
   const titulo = document.querySelector('#turn-modal h2');
   titulo.textContent = '¡Es turno del rival!';
@@ -331,7 +335,12 @@ function showMensajeInfoRival() {
   const mensajeInfo = document.querySelector('.mensajeInfo-content');
   mensajeInfo.style.backgroundColor = 'rgb(182, 28, 28, 0.5)';
   mensajeInfo.style.color = '#ad0303';
-  mensajeInfo.style.boxShadow = '0 0 20px #ad0303;';
+  mensajeInfo.style.boxShadow = '0 0 20px #ad0303';
+
+  setTimeout(() => {
+    // Ocultar el mensaje
+    closeMensajeInfo();
+  }, 2000);
 }
 
 function closeMensajeInfo() {

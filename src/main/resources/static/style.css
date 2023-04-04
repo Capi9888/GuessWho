@@ -297,12 +297,12 @@
     text-align: center;
     box-shadow: 0 0 20px #ad0303;
     animation: slide-in 0.5s ease-out forwards;
+    color: #03ad1a;
   }
   
   h2 {
     font-size: 3em;
     font-family: 'Press Start 2P', cursive;
-    color: #03ad1a;
     text-shadow: 2px 2px #000;
     margin-bottom: 20px;
   }
