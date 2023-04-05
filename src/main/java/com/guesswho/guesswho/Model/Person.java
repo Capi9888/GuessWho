@@ -7,7 +7,6 @@ public class Person {
     //region attributes
     public enum Hair {
         BALD,
-        BROWN,
         BLOND,
         RED,
         BLACK,

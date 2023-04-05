@@ -136,7 +136,7 @@ public class PersonDB {
     
 
 
-    public List<Integer> getGuessedPersons(String caracteristica1,String separador,String caracteristica2) throws SQLException {
+    public List<Integer> getGuessedPersons(String caracteristica1,String separador,String caracteristica2,boolean guessed) throws SQLException {
         int id = -1;
         try (Connection con = dataSource.getConnection()) {
             String sql = "";
@@ -160,13 +160,15 @@ public class PersonDB {
                     }
                 }
             }
-            if(haveWanted){
-                res = getGuessedPersonsReverso(res);
-                res.removeAll(getAllGuessedPersons(getGameId(), 1));     
-            }
-            if(res.size() != 0){
-                setGuessedGamePerson(sql,haveWanted);
-            }
+            if(guessed){
+                if(haveWanted){
+                    res = getGuessedPersonsReverso(res);
+                    res.removeAll(getAllGuessedPersons(getGameId(), 1));     
+                }
+                if(res.size() != 0){
+                    setGuessedGamePerson(sql,haveWanted);
+                }
+            }            
             return res;
         }
     }

@@ -1,7 +1,6 @@
 package com.guesswho.guesswho.Controller;
 
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,7 +47,7 @@ public class MainController {
         String separador = datosFormulario.get("opciones2");
         String caracteristica2String = datosFormulario.get("opciones3");
 
-        List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String);
+        List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String,true);
         Collections.shuffle(idGuesseds);
 
     

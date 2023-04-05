@@ -33,14 +33,14 @@ public class Game {
         }
     }
 
-    public List<Integer> guessPerson(String caracteristica1,String separador,String caracteristica2)
+    public List<Integer> guessPerson(String caracteristica1,String separador,String caracteristica2, boolean guessed)
     {
 
 
         try 
         {
             PersonDB GamePerson = new PersonDB();
-            return GamePerson.getGuessedPersons(guessPersonAux(caracteristica1), separador, guessPersonAux(caracteristica2)); 
+            return GamePerson.getGuessedPersons(guessPersonAux(caracteristica1), separador, guessPersonAux(caracteristica2),guessed); 
         } 
         catch (Exception e) 
         {
@@ -74,13 +74,39 @@ public class Game {
                 case 9:
                     return "hair='BLACK'";
                 case 10:
-                    return "hair='BROWN'";
+                    return "hair='WHITE'";
                 case 11:
                     return "hair='BALD'";
             }   
         return null;
     }
 
+    public String guessPersonEnemy(int numCaracteristicas)
+    {
+        double porcentajeActual = 0.;
+        double porcentajeMaximo = 0.;
+        String respuestasUnicas ="";
+        String respuestasY = "";
+        String respuestasO = "";
+        for(Integer i = 1; i<=numCaracteristicas;i++)
+        {   
+            int n = guessPerson(i.toString(), "n", "1",false).size();
+            porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+            respuestasUnicas += "Tiene " + guessPersonAux(i.toString())+" -- " +n+"/24="+ porcentajeActual +"%\n" ;
+
+            for(Integer j = i+1; j <= numCaracteristicas;j++)
+            {
+                n=guessPerson(i.toString(), "y", j.toString(),false).size();
+                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+                respuestasY += "Tiene "+ guessPersonAux(i.toString()) + " y " + guessPersonAux(j.toString()) +" -- " +n+"/24="+ porcentajeActual +"%\n";
+                n=guessPerson(i.toString(), "o", j.toString(),false).size();
+                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+                respuestasO += "Tiene "+ guessPersonAux(i.toString()) + " o " + guessPersonAux(j.toString()) +" -- " +n+"/24="+ porcentajeActual +"%\n";
+            }
+        }
+
+        return "Primera forma: \n" + respuestasUnicas + "\n------------------------------\n" + "Segunda forma: \n" + respuestasY + "\n------------------------------\n" + "Tercera forma: \n" + respuestasO + "\n------------------------------\n";
+    }
 
     
 }
