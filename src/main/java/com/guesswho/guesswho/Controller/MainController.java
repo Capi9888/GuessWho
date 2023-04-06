@@ -43,13 +43,27 @@ public class MainController {
     }
 
     @PostMapping("/guess")
-    public @ResponseBody List<Integer> manejarPeticion(@RequestBody Map<String, String> datosFormulario) {
+    public @ResponseBody List<Integer> adivinarAliado(@RequestBody Map<String, String> datosFormulario) {
         try{
             String caracteristica1 = datosFormulario.get("opciones1");
             String separador = datosFormulario.get("opciones2");
             String caracteristica2String = datosFormulario.get("opciones3");
             PersonDB gp = new PersonDB();
             List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String,true,null,gp.getGameId(),1);
+            Collections.shuffle(idGuesseds);
+            return idGuesseds;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+
+        }
+    }
+
+
+    @PostMapping("/guessEnemy")
+    public @ResponseBody List<Integer> adivinarEnemigo() {
+        try{
+            List<Integer> idGuesseds = game.guessPersonEnemy(12);
             Collections.shuffle(idGuesseds);
             return idGuesseds;
         }catch(Exception e){

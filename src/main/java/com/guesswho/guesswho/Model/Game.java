@@ -64,30 +64,33 @@ public class Game {
                 case 4:
                     return "glasses=1";
                 case 5:
-                    return "gender=0";
+                    return "big_nose=1";
                 case 6:
-                    return "brown_eyes=1";
+                    return "gender=0";
                 case 7:
-                    return "hair='RED'";
+                    return "brown_eyes=1";
                 case 8:
-                    return "hair='BLOND'";
+                    return "hair='RED'";
                 case 9:
-                    return "hair='BLACK'";
+                    return "hair='BLOND'";
                 case 10:
-                    return "hair='WHITE'";
+                    return "hair='BLACK'";
                 case 11:
+                    return "hair='WHITE'";
+                case 12:
                     return "hair='BALD'";
             }   
         return null;
     }
 
-    public String guessPersonEnemy(int numCaracteristicas)
+    public List<Integer> guessPersonEnemy(int numCaracteristicas)
     {
         try{
             PersonDB p = new PersonDB();
-            return p.guessPersonEnemy(11);
+            return p.guessPersonEnemy(numCaracteristicas);
         }catch(Exception e){
-            return e.getMessage();
+            e.printStackTrace();
+            return null;
         }
 
     }

@@ -12,8 +12,8 @@ import com.guesswho.guesswho.Model.Game;
 public class GuesswhoApplication {
 
 	public static void main(String[] args) {
-	//SpringApplication.run(GuesswhoApplication.class, args);
-	Game g = new Game();
-	System.out.println(g.guessPersonEnemy(11));
+	SpringApplication.run(GuesswhoApplication.class, args);
+	//Game g = new Game();
+	//System.out.println(g.guessPersonEnemy(11));
 	}
 }
