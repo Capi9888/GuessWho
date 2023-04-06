@@ -1,7 +1,7 @@
 package com.guesswho.guesswho.Model;
 import java.util.List;
 import org.springframework.stereotype.Component;
-
+import java.sql.Connection;
 import com.guesswho.guesswho.DAO.PersonDB;
 
 @Component
@@ -33,14 +33,14 @@ public class Game {
         }
     }
 
-    public List<Integer> guessPerson(String caracteristica1,String separador,String caracteristica2, boolean guessed)
+    public List<Integer> guessPerson(String caracteristica1,String separador,String caracteristica2, boolean guessed, Connection conAux, int gameID,int player)
     {
 
 
         try 
         {
             PersonDB GamePerson = new PersonDB();
-            return GamePerson.getGuessedPersons(guessPersonAux(caracteristica1), separador, guessPersonAux(caracteristica2),guessed); 
+            return GamePerson.getGuessedPersons(guessPersonAux(caracteristica1), separador, guessPersonAux(caracteristica2),guessed,conAux, gameID,player); 
         } 
         catch (Exception e) 
         {
@@ -83,29 +83,13 @@ public class Game {
 
     public String guessPersonEnemy(int numCaracteristicas)
     {
-        double porcentajeActual = 0.;
-        double porcentajeMaximo = 0.;
-        String respuestasUnicas ="";
-        String respuestasY = "";
-        String respuestasO = "";
-        for(Integer i = 1; i<=numCaracteristicas;i++)
-        {   
-            int n = guessPerson(i.toString(), "n", "1",false).size();
-            porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
-            respuestasUnicas += "Tiene " + guessPersonAux(i.toString())+" -- " +n+"/24="+ porcentajeActual +"%\n" ;
-
-            for(Integer j = i+1; j <= numCaracteristicas;j++)
-            {
-                n=guessPerson(i.toString(), "y", j.toString(),false).size();
-                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
-                respuestasY += "Tiene "+ guessPersonAux(i.toString()) + " y " + guessPersonAux(j.toString()) +" -- " +n+"/24="+ porcentajeActual +"%\n";
-                n=guessPerson(i.toString(), "o", j.toString(),false).size();
-                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
-                respuestasO += "Tiene "+ guessPersonAux(i.toString()) + " o " + guessPersonAux(j.toString()) +" -- " +n+"/24="+ porcentajeActual +"%\n";
-            }
+        try{
+            PersonDB p = new PersonDB();
+            return p.guessPersonEnemy(11);
+        }catch(Exception e){
+            return e.getMessage();
         }
 
-        return "Primera forma: \n" + respuestasUnicas + "\n------------------------------\n" + "Segunda forma: \n" + respuestasY + "\n------------------------------\n" + "Tercera forma: \n" + respuestasO + "\n------------------------------\n";
     }
 
     

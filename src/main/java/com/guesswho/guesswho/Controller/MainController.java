@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.guesswho.guesswho.DAO.PersonDB;
 import com.guesswho.guesswho.Model.Game;
 
 @Controller
@@ -43,17 +44,19 @@ public class MainController {
 
     @PostMapping("/guess")
     public @ResponseBody List<Integer> manejarPeticion(@RequestBody Map<String, String> datosFormulario) {
-        String caracteristica1 = datosFormulario.get("opciones1");
-        String separador = datosFormulario.get("opciones2");
-        String caracteristica2String = datosFormulario.get("opciones3");
-
-        List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String,true);
-        Collections.shuffle(idGuesseds);
-
-    
+        try{
+            String caracteristica1 = datosFormulario.get("opciones1");
+            String separador = datosFormulario.get("opciones2");
+            String caracteristica2String = datosFormulario.get("opciones3");
+            PersonDB gp = new PersonDB();
+            List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String,true,null,gp.getGameId(),1);
+            Collections.shuffle(idGuesseds);
             return idGuesseds;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
 
-
+        }
     }
 }
 

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 import com.guesswho.guesswho.Configuration.AppConfig;
 import com.guesswho.guesswho.Model.Person;
 import com.guesswho.guesswho.Model.Person.Hair;
+import com.guesswho.guesswho.Model.Game;
+
 
 @Repository
 public class PersonDB {
@@ -100,7 +102,7 @@ public class PersonDB {
         return nextId;
     }
 
-    private int getGameId() throws SQLException {
+    public int getGameId() throws SQLException {
         int nextId = 1;
         try (Connection con = dataSource.getConnection()) {
             String sql = "SELECT MAX(id_game) AS max_game_id FROM Games";
@@ -136,18 +138,20 @@ public class PersonDB {
     
 
 
-    public List<Integer> getGuessedPersons(String caracteristica1,String separador,String caracteristica2,boolean guessed) throws SQLException {
+    public List<Integer> getGuessedPersons(String caracteristica1,String separador,String caracteristica2,boolean guessed,Connection conAux,int gameID,int player) throws SQLException {
         int id = -1;
-        try (Connection con = dataSource.getConnection()) {
+        boolean haveConnection = (conAux != null);
+        Connection con = haveConnection ? conAux : dataSource.getConnection();
+        try (Statement stmt = con.createStatement()) {
             String sql = "";
             if(separador.equals("y")){
-                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+getGameId()+" AND player = 1 AND ("+caracteristica1+" AND "+caracteristica2+")";
+                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+gameID+" AND player = "+player+" AND ("+caracteristica1+" AND "+caracteristica2+")";
             }else if(separador.equals("o")){
-                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+getGameId()+" AND player = 1 AND ("+caracteristica1+" OR "+caracteristica2+")";
+                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+gameID+" AND player = "+player+" AND ("+caracteristica1+" OR "+caracteristica2+")";
             }else{
-                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+getGameId()+" AND player = 1 AND ("+caracteristica1+")";
+                sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "+gameID+" AND player = "+player+" AND ("+caracteristica1+")";
             }
-            Statement stmt = con.createStatement();
+            
             ResultSet rs = stmt.executeQuery(sql);
             List<Integer> res = new ArrayList<>();
             Boolean haveWanted = false;
@@ -163,13 +167,17 @@ public class PersonDB {
             if(guessed){
                 if(haveWanted){
                     res = getGuessedPersonsReverso(res);
-                    res.removeAll(getAllGuessedPersons(getGameId(), 1));     
+                    res.removeAll(getAllGuessedPersons(gameID, 1));     
                 }
                 if(res.size() != 0){
                     setGuessedGamePerson(sql,haveWanted);
                 }
             }            
             return res;
+        }finally{
+            if (!haveConnection) {
+                con.close();
+            }
         }
     }
 
@@ -288,6 +296,44 @@ public class PersonDB {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+
+    public String guessPersonEnemy(int numCaracteristicas) throws SQLException
+    {
+        double porcentajeActual = 0.;
+        double porcentajeMaximo = 0.;
+        String respuestasUnicas ="";
+        String respuestasY = "";
+        String respuestasO = "";
+        Game g = new Game();
+        int gameID = getGameId();
+        try (Connection con = dataSource.getConnection()) {
+        for(Integer i = 1; i<=numCaracteristicas;i++)
+        {   
+            String caracteristica1 = g.guessPersonAux(i.toString());
+            int n = getGuessedPersons(caracteristica1, "n", "1",false,con,gameID,2).size();   
+            porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+            respuestasUnicas += "Tiene " + caracteristica1+" -- " +n+"/24="+ porcentajeActual +"%\n" ;     
+            for(Integer j = i+1; j <= numCaracteristicas;j++)
+            {
+                String caracteristica2 = g.guessPersonAux(j.toString());
+                n= getGuessedPersons(caracteristica1, "y", caracteristica2,false,con,gameID,2).size();
+                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+                respuestasY += "Tiene "+ caracteristica1 + " y " + caracteristica2 +" -- " +n+"/24="+ porcentajeActual +"%\n";
+                n= getGuessedPersons(caracteristica1, "o", caracteristica2,false,con,gameID,2).size();  
+                porcentajeActual =  Math.round((( n * 100) /  (24*1.)) * 100.0) / 100.0;
+                respuestasO += "Tiene "+ caracteristica1 + " o " + caracteristica2 +" -- " +n+"/24="+ porcentajeActual +"%\n";              
+            }
+        }
+    }
+        return "Primera forma: \n" + respuestasUnicas + "\n------------------------------\n" + "Segunda forma: \n" + respuestasY + "\n------------------------------\n" + "Tercera forma: \n" + respuestasO + "\n------------------------------\n";
+
+    }
+
+    public String prueba(Connection con ){
+        return "";
     }
 }
     
