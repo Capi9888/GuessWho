@@ -4,6 +4,7 @@ package com.guesswho.guesswho.Controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,9 @@ public class MainController {
     public @ResponseBody List<Integer> adivinarEnemigo() {
         try{
             List<Integer> idGuesseds = game.guessPersonEnemy(12);
+            System.out.println(idGuesseds);
             Collections.shuffle(idGuesseds);
+            idGuesseds=idGuesseds.stream().map(x->x+24).collect(Collectors.toList());
             return idGuesseds;
         }catch(Exception e){
             System.out.println(e.getMessage());

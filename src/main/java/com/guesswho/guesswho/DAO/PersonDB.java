@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.sql.DataSource;
 
@@ -69,12 +70,14 @@ public class PersonDB {
             // Se crea la relación personajes / game
             sql = "INSERT INTO GamePerson (id_game,id_person,player,guessed,wanted) VALUES (?,?,?,?,?)";
             pstmt = con.prepareStatement(sql);
+            Random random = new Random();
+            int wantedEnemy = random.nextInt(24) + 1;
             for (int i = 1; i <= 24; i++) {
                 pstmt.setInt(1, nextGameId);
                 pstmt.setInt(2, i);
                 pstmt.setInt(3, 1);
                 pstmt.setInt(4, 0);
-                pstmt.setInt(5, 0);
+                pstmt.setInt(5, i==wantedEnemy?1:0);
                 pstmt.executeUpdate();
 
                 pstmt.setInt(1, nextGameId);
@@ -131,7 +134,7 @@ public class PersonDB {
     public void setWantedGamePersonByName(String nombrePersona) throws SQLException {
         try (Connection con = dataSource.getConnection()) {
             String sql = "UPDATE GamePerson SET wanted=1 WHERE id_game=" + getGameId() + " AND id_person="
-                    + getIDPersonByName(nombrePersona) + " AND player=" + 1;
+                    + getIDPersonByName(nombrePersona) + " AND player=2";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.executeUpdate();
         }
@@ -172,7 +175,7 @@ public class PersonDB {
             if (guessed) {
                 if (haveWanted) {
                     res = getGuessedPersonsReverso(res);
-                    res.removeAll(getAllGuessedPersons(gameID, 1));
+                    res.removeAll(getAllGuessedPersons(gameID, player));
                 }
                 if (res.size() != 0) {
                     setGuessedGamePerson(sql, haveWanted, player);
@@ -336,7 +339,6 @@ public class PersonDB {
                     String caracteristica2 = g.guessPersonAux(j.toString());
                     n = getGuessedPersons(caracteristica1, "o", caracteristica2, false, con, gameID, 2).size();
                     porcentajeActual = Math.round(((n * 100) / (personasSinAdivinar * 1.)) * 100.0) / 100.0;
-
                     if (porcentajeActual == 50.) {
                         return getGuessedPersons(caracteristica1, "o", caracteristica2, true, con, gameID, 2);
                     } else if (Math.abs(porcentajeActual - 50) < Math.abs(porcentajeMaximo - 50)) {
@@ -348,7 +350,6 @@ public class PersonDB {
 
                     n = getGuessedPersons(caracteristica1, "y", caracteristica2, false, con, gameID, 2).size();
                     porcentajeActual = Math.round(((n * 100) / (personasSinAdivinar * 1.)) * 100.0) / 100.0;
-
                     if (porcentajeActual == 50.) {
                         return getGuessedPersons(caracteristica1, "y", caracteristica2, true, con, gameID, 2);
                     } else if (Math.abs(porcentajeActual - 50) < Math.abs(porcentajeMaximo - 50)) {
@@ -359,7 +360,6 @@ public class PersonDB {
                     }
                 }
             }
-
             return getGuessedPersons(acum1, acum2, acum3, true, con, gameID, 2);
         }
 
