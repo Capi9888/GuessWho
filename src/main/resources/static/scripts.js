@@ -118,9 +118,11 @@ function enviarPregunta() {
   xhr.onload = function () {
     if (xhr.status === 200) {
       // La solicitud se ha completado correctamente
-      const idGuesseds = JSON.parse(xhr.responseText);
-      let tiempoEspera = 0;
+      const question = JSON.parse(xhr.responseText);
+      const idGuesseds = question.idPersons;
+      let tiempoEspera = 6000;
       let contadorCartasGiradas = 0;
+      showMensajeInfoPregunta(question.question,question.answer);
       for (const idGuess of idGuesseds) {
         setTimeout(function () {
           girarCarta(`carta-${idGuess}`);
@@ -161,9 +163,13 @@ function enviarPreguntaEnemigo() {
   xhr.onload = function () {
     if (xhr.status === 200) {
       // La solicitud se ha completado correctamente
-      const idGuesseds = JSON.parse(xhr.responseText);
-      let tiempoEspera = 0;
+      const question = JSON.parse(xhr.responseText);
+      const idGuesseds = question.idPersons;
+      let tiempoEspera = 8500;
       let contadorCartasGiradas = 0;
+      setTimeout(function () {
+      showMensajeInfoPregunta(question.question,question.answer);
+      },3000);
       for (const idGuess of idGuesseds) {
         setTimeout(function () {
           girarCarta(`carta-${idGuess}`);
@@ -176,7 +182,7 @@ function enviarPreguntaEnemigo() {
             setTimeout(() => {
               // Ocultar el mensaje
               showDesplegablePreguntas();
-            }, 2500);
+            }, 4000);
           }
         }, tiempoEspera);
         tiempoEspera += 500; // incrementar el tiempo de espera en 500ms por cada iteración
@@ -398,6 +404,43 @@ function showMensajeInfoRival() {
     // Ocultar el mensaje
     closeMensajeInfo();
   }, 2000);
+}
+function showMensajeInfoPregunta(pregunta,respuesta) {
+  const titulo = document.querySelector('#turn-modal h2');
+  titulo.textContent = '';
+
+  const parrafo = document.querySelector('#turn-modal p');
+  parrafo.innerHTML = '';
+
+  var modal = document.getElementById("turn-modal");
+  modal.style.display = "block";
+
+  const mensajeInfo = document.querySelector('.mensajeInfo-content');
+  mensajeInfo.style.backgroundColor = 'rgb(189, 183, 107, 0.5)';
+  mensajeInfo.style.color = '#f7fc00';
+  mensajeInfo.style.boxShadow = '0 0 20px #f7fc00';
+
+  let i = 0;
+  const intervalo = setInterval(() => {
+    if (i < pregunta.length) {
+      titulo.textContent += pregunta.substring(i, i+1);
+      i++;
+    } else {
+      clearInterval(intervalo);
+      let j = 0;
+      const intervaloRespuesta = setInterval(() => {
+        if (j < respuesta.length) {
+          parrafo.innerHTML += respuesta.substring(j, j+1);
+          j++;
+        } else {
+          clearInterval(intervaloRespuesta);
+          setTimeout(() => {
+            closeMensajeInfo();
+          }, 100);
+        }
+      }, 500);
+    }
+  }, 100);
 }
 
 function closeMensajeInfo() {

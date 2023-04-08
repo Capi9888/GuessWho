@@ -77,7 +77,7 @@ public class Person {
     }
     //region constructor
     public  Person(){
-        this.name = "perro";
+        this.name = "";
         this.hair = randomHair();
         this.glasses = randomBoolean();
         this.brownEyes = randomBoolean();

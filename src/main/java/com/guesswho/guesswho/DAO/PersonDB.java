@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.guesswho.guesswho.Configuration.AppConfig;
 import com.guesswho.guesswho.Model.Person;
+import com.guesswho.guesswho.Model.Question;
 import com.guesswho.guesswho.Model.Person.Hair;
 import com.guesswho.guesswho.Model.Game;
 
@@ -140,24 +141,25 @@ public class PersonDB {
         }
     }
 
-    public List<Integer> getGuessedPersons(String caracteristica1, String separador, String caracteristica2,
+    public Question getGuessedPersons(String caracteristica1, String separador, String caracteristica2,
             boolean guessed, Connection conAux, int gameID, int player) throws SQLException {
         int id = -1;
+        Question q = new Question();
         boolean haveConnection = (conAux != null);
         Connection con = haveConnection ? conAux : dataSource.getConnection();
         try (Statement stmt = con.createStatement()) {
             String sql = "";
             if (separador.equals("y")) {
                 sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "
-                        + gameID + " AND player = " + player + " AND (" + caracteristica1 + " AND " + caracteristica2
+                        + gameID + " AND player = " + player + " AND (" + q.questionBBDD(caracteristica1) + " AND " + q.questionBBDD(caracteristica2)
                         + ")";
             } else if (separador.equals("o")) {
                 sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "
-                        + gameID + " AND player = " + player + " AND (" + caracteristica1 + " OR " + caracteristica2
+                        + gameID + " AND player = " + player + " AND (" + q.questionBBDD(caracteristica1) + " OR " + q.questionBBDD(caracteristica2)
                         + ")";
             } else {
                 sql = "select gp.id_person,gp.guessed,gp.wanted from GamePerson gp LEFT JOIN Persons p on gp.id_person = p.id_person WHERE id_game = "
-                        + gameID + " AND player = " + player + " AND (" + caracteristica1 + ")";
+                        + gameID + " AND player = " + player + " AND (" + q.questionBBDD(caracteristica1) + ")";
             }
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -181,10 +183,17 @@ public class PersonDB {
                     setGuessedGamePerson(sql, haveWanted, player);
                 }
             }
-            return res;
+
+            q.setIdPersons(res);
+            q.setAnswer(haveWanted?"Sí":"No");
+            q.setQuestion(q.questionString(caracteristica1, separador, caracteristica2));
+
+            return q;
         } finally {
             if (!haveConnection) {
-                con.close();
+                if(con != null){
+                    con.close();
+                }
             }
         }
     }
@@ -307,7 +316,7 @@ public class PersonDB {
         }
     }
 
-    public List<Integer> guessPersonEnemy(int numCaracteristicas) throws SQLException {
+    public Question guessPersonEnemy(int numCaracteristicas) throws SQLException {
         double porcentajeActual = 0.;
         double porcentajeMaximo = 0.;
 
@@ -315,15 +324,14 @@ public class PersonDB {
         String acum2 = "";
         String acum3 = "";
 
-        Game g = new Game();
         int gameID = getGameId();
 
         int personasSinAdivinar = 24 - getAllGuessedPersons(gameID, 2).size();
 
         try (Connection con = dataSource.getConnection()) {
             for (Integer i = 1; i <= numCaracteristicas; i++) {
-                String caracteristica1 = g.guessPersonAux(i.toString());
-                int n = getGuessedPersons(caracteristica1, "n", "1", false, con, gameID, 2).size();
+                String caracteristica1 =i.toString();
+                int n = getGuessedPersons(caracteristica1, "n", "1", false, con, gameID, 2).getIdPersons().size();
                 porcentajeActual = Math.round(((n * 100) / (personasSinAdivinar * 1.)) * 100.0) / 100.0;
                 if (porcentajeActual == 50.) {
                     return getGuessedPersons(caracteristica1, "n", "1", true, con, gameID, 2);
@@ -336,8 +344,8 @@ public class PersonDB {
                 }
 
                 for (Integer j = i + 1; j <= numCaracteristicas; j++) {
-                    String caracteristica2 = g.guessPersonAux(j.toString());
-                    n = getGuessedPersons(caracteristica1, "o", caracteristica2, false, con, gameID, 2).size();
+                    String caracteristica2 = j.toString();
+                    n = getGuessedPersons(caracteristica1, "o", caracteristica2, false, con, gameID, 2).getIdPersons().size();
                     porcentajeActual = Math.round(((n * 100) / (personasSinAdivinar * 1.)) * 100.0) / 100.0;
                     if (porcentajeActual == 50.) {
                         return getGuessedPersons(caracteristica1, "o", caracteristica2, true, con, gameID, 2);
@@ -345,10 +353,10 @@ public class PersonDB {
                         porcentajeMaximo = porcentajeActual;
                         acum1 = caracteristica1;
                         acum2 = "o";
-                        acum3 = caracteristica1;
+                        acum3 = caracteristica2;
                     }
 
-                    n = getGuessedPersons(caracteristica1, "y", caracteristica2, false, con, gameID, 2).size();
+                    n = getGuessedPersons(caracteristica1, "y", caracteristica2, false, con, gameID, 2).getIdPersons().size();
                     porcentajeActual = Math.round(((n * 100) / (personasSinAdivinar * 1.)) * 100.0) / 100.0;
                     if (porcentajeActual == 50.) {
                         return getGuessedPersons(caracteristica1, "y", caracteristica2, true, con, gameID, 2);
@@ -356,7 +364,7 @@ public class PersonDB {
                         porcentajeMaximo = porcentajeActual;
                         acum1 = caracteristica1;
                         acum2 = "y";
-                        acum3 = caracteristica1;
+                        acum3 = caracteristica2;
                     }
                 }
             }

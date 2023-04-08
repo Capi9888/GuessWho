@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.guesswho.guesswho.DAO.PersonDB;
 import com.guesswho.guesswho.Model.Game;
+import com.guesswho.guesswho.Model.Question;
 
 @Controller
 public class MainController {
@@ -44,15 +45,18 @@ public class MainController {
     }
 
     @PostMapping("/guess")
-    public @ResponseBody List<Integer> adivinarAliado(@RequestBody Map<String, String> datosFormulario) {
+    public @ResponseBody Question adivinarAliado(@RequestBody Map<String, String> datosFormulario) {
         try{
             String caracteristica1 = datosFormulario.get("opciones1");
             String separador = datosFormulario.get("opciones2");
-            String caracteristica2String = datosFormulario.get("opciones3");
+            String caracteristica2 = datosFormulario.get("opciones3");
             PersonDB gp = new PersonDB();
-            List<Integer> idGuesseds = game.guessPerson(caracteristica1, separador, caracteristica2String,true,null,gp.getGameId(),1);
+            Question q = new Question();
+            q = game.guessPerson(caracteristica1, separador, caracteristica2,true,null,gp.getGameId(),1);
+            List<Integer> idGuesseds = q.getIdPersons();
             Collections.shuffle(idGuesseds);
-            return idGuesseds;
+            q.setIdPersons(idGuesseds);
+            return q;
         }catch(Exception e){
             System.out.println(e.getMessage());
             return null;
@@ -62,13 +66,14 @@ public class MainController {
 
 
     @PostMapping("/guessEnemy")
-    public @ResponseBody List<Integer> adivinarEnemigo() {
+    public @ResponseBody Question adivinarEnemigo() {
         try{
-            List<Integer> idGuesseds = game.guessPersonEnemy(12);
-            System.out.println(idGuesseds);
+            Question q = new Question();
+            q = game.guessPersonEnemy(12);
+            List<Integer> idGuesseds = q.getIdPersons();
             Collections.shuffle(idGuesseds);
-            idGuesseds=idGuesseds.stream().map(x->x+24).collect(Collectors.toList());
-            return idGuesseds;
+            q.setIdPersons(idGuesseds.stream().map(x->x+24).collect(Collectors.toList()));
+            return q;
         }catch(Exception e){
             System.out.println(e.getMessage());
             return null;

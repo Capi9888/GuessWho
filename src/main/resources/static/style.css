@@ -128,14 +128,6 @@
     right: 0;
     margin: 20px;
 }
-.btnStart {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
 
 
@@ -183,7 +175,7 @@
   }
   
   button {
-    background-color: #4CAF50;
+    background-color: #327c10ad;
     color: white;
     padding: 10px 20px;
     border: none;
