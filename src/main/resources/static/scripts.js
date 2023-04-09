@@ -1,4 +1,69 @@
 
+function iniciarJuego() {
+  const pantallaInicio = document.getElementById('pantalla-inicio');
+  const fondoDifuminado = document.getElementById('fondo-difuminado');
+  reiniciarTablero();
+  pantallaInicio.style.animation = 'fadeOut 1s forwards';
+  fondoDifuminado.style.animation = 'fadeOut 1s forwards';
+
+  setTimeout(() => {
+    pantallaInicio.style.display = 'none';
+    fondoDifuminado.style.display = 'none';
+
+    // Aquí llamarías a la función para iniciar el juego
+
+    const fakeEvent = new Event('fake'); // Crear un evento falso
+    startGame(fakeEvent); // Llamar a la función startGame pasando el evento falso
+  }, 1500);
+}
+
+function startGame(event) {
+  // Evitar que la página se recargue al enviar el formulario
+  event.preventDefault();
+
+  // Crear una instancia del objeto XMLHttpRequest
+  var xhr = new XMLHttpRequest();
+
+  // Configurar la solicitud HTTP
+  xhr.open("POST", "/playgame", true);
+
+  // Enviar la solicitud sin datos adicionales
+  xhr.send();
+  animarCartas();
+  showMensajeInfoElegir();
+
+}
+
+function mostrarPantallaInicio(ganador) {
+  if(ganador ==1){
+    const header = document.querySelector('h1');
+    header.innerHTML = '¡Victoria!';
+  }else{
+    const header = document.querySelector('h1');
+    header.innerHTML = '¡Derrota!';
+  }
+
+  
+  const button = document.querySelector('#btn-empezar');
+  button.innerHTML = 'Volver a jugar';
+
+  const pantallaInicio = document.getElementById('pantalla-inicio');
+  const fondoDifuminado = document.getElementById('fondo-difuminado');
+
+  pantallaInicio.style.animation = 'fadeIn 1s forwards';
+  fondoDifuminado.style.animation = 'fadeIn 1s forwards';
+  pantallaInicio.style.display = 'block';
+  fondoDifuminado.style.display = 'block';
+  if(ganador == 2){
+    setTimeout(() => {
+      cambiarTablero();
+    }, 2000);
+  }
+  setTimeout(() => {
+    pantallaInicio.style.animation = '';
+    fondoDifuminado.style.animation = '';
+  }, 1000);
+}
 /* Funcion para cambiar los tableros */
 function cambiarTablero() {
   const tablero = document.querySelector('#tablero');
@@ -35,6 +100,49 @@ function girarCartaSecreta(id) {
     carta.getElementsByClassName('carta-trasera')[0].classList.toggle('show');
   }, 500);
 }
+
+function comprobarVictoria(numeroEquipo) {
+  var giradas = 0;
+  
+  if(numeroEquipo == 1){
+    for (var i = 1; i <= 24; i++) {
+      var id = "carta-" + i;
+      var carta = document.getElementById(id);
+      if (carta.classList.contains("girada")) {
+          giradas++;        
+      }
+    }
+  }else{
+    for (var i = 25; i <= 48; i++) {
+      var id = "carta-" + i;
+      var carta = document.getElementById(id);
+      if (carta.classList.contains("girada")) {
+          giradas++;        
+      }
+    }
+  }
+  
+  return giradas == 23;
+}
+
+function reiniciarTablero(){
+// Seleccionar todas las etiquetas div con la clase carta-frontal
+var cartas = document.querySelectorAll('.carta');
+const boton = document.querySelector('.confirmar-seleccion');
+boton.classList.remove('mostrarBoton');
+boton.classList.remove('ocultarBotonClick');
+// Iterar sobre la lista de etiquetas y añadir el atributo onclick
+cartas.forEach(function(carta) {
+    var cartaFrontal = carta.querySelector('.carta-frontal');
+    var cartaTrasera = carta.querySelector('.carta-trasera');
+    cartaFrontal.setAttribute('onclick', 'cartaElegida(this.closest(\'.carta\'))');
+    carta.setAttribute('onclick','mostrarBotonSeleccion()');
+    carta.classList.remove('girada');
+    cartaFrontal.classList.remove('oculta');
+    cartaTrasera.classList.remove('show');                 
+});
+
+}
 //Se declara el intervalo de forma global para poder eliminarlo cuando necesite
 var intervalo;
 function animarCartas() {
@@ -61,30 +169,6 @@ function animarCartas() {
   }, 650);
 }
 
-// Obtener referencia al formulario "formPlay" para empezar partida
-var formPlay = document.getElementById("formPlay");
-
-// Evento que se activa cuando se pulsa el botón "Empezar partida"
-formPlay.addEventListener("submit", function (event) {
-  startGame(event);
-});
-
-function startGame(event) {
-  // Evitar que la página se recargue al enviar el formulario
-  event.preventDefault();
-
-  // Crear una instancia del objeto XMLHttpRequest
-  var xhr = new XMLHttpRequest();
-
-  // Configurar la solicitud HTTP
-  xhr.open("POST", "/playgame", true);
-
-  // Enviar la solicitud sin datos adicionales
-  xhr.send();
-  animarCartas();
-  showMensajeInfoElegir();
-
-}
 //Formulario
 var formularioContainer = document.getElementById('formulario-container');
 var enviarBtn = document.getElementById('miFormulario').querySelector('button[type="submit"]');
@@ -123,16 +207,27 @@ function enviarPregunta() {
       let tiempoEspera = 5000;
       let contadorCartasGiradas = 0;
       showMensajeInfoPregunta(question.question,question.answer);
+      if(idGuesseds.length == 0){
+        setTimeout(function () {
+          cambiarTablero();
+          showMensajeInfoRival();
+          enviarPreguntaEnemigo();
+        }, 5500);
+      }
       for (const idGuess of idGuesseds) {
         setTimeout(function () {
           girarCarta(`carta-${idGuess}`);
           contadorCartasGiradas++;
           if (contadorCartasGiradas === idGuesseds.length) {
-            setTimeout(function () {
-              cambiarTablero();
-              showMensajeInfoRival();
-              enviarPreguntaEnemigo();
-            }, 1500);
+            if(comprobarVictoria(1)){
+              mostrarPantallaInicio(1);
+            }else{
+              setTimeout(function () {
+                cambiarTablero();
+                showMensajeInfoRival();
+                enviarPreguntaEnemigo();
+              }, 1500);
+            }
           }
         }, tiempoEspera);
         tiempoEspera += 500; // incrementar el tiempo de espera en 500ms por cada iteración
@@ -175,14 +270,19 @@ function enviarPreguntaEnemigo() {
           girarCarta(`carta-${idGuess}`);
           contadorCartasGiradas++;
           if (contadorCartasGiradas === idGuesseds.length) {
-            setTimeout(function () {
-              cambiarTablero();
-              showMensajeInfo();
-            }, 1500);
-            setTimeout(() => {
-              // Ocultar el mensaje
-              showDesplegablePreguntas();
-            }, 4000);
+            if(comprobarVictoria(2)){
+              mostrarPantallaInicio(2);
+            }
+            else {
+              setTimeout(function () {
+                cambiarTablero();
+                showMensajeInfo();
+              }, 1500);
+              setTimeout(() => {
+                // Ocultar el mensaje
+                showDesplegablePreguntas();
+              }, 4000);
+            }
           }
         }, tiempoEspera);
         tiempoEspera += 500; // incrementar el tiempo de espera en 500ms por cada iteración
@@ -327,6 +427,7 @@ function cartaElegida(id) {
 
 //Enviar seleccion personaje
 function enviarSeleccion() {
+  var cartasFrontales = document.querySelectorAll('.carta-frontal');
   var cartaFrontal = document.querySelector('#carta-secreta .carta-trasera img');
   var srcCartaFrontal = cartaFrontal.getAttribute('src');
 
@@ -339,6 +440,10 @@ function enviarSeleccion() {
     // Ocultar el mensaje
     showDesplegablePreguntas();
   }, 2500);
+
+  cartasFrontales.forEach(function(cartaFrontal) {
+    cartaFrontal.removeAttribute('onclick');
+  });
 }
 
 //Controlar los mensajes de informacion/turno
@@ -410,7 +515,7 @@ function showMensajeInfoPregunta(pregunta,respuesta) {
   titulo.textContent = '';
 
   const parrafo = document.querySelector('#turn-modal p');
-  parrafo.innerHTML = '';
+  parrafo.innerHTML = '&nbsp;';
 
   var modal = document.getElementById("turn-modal");
   modal.style.display = "block";

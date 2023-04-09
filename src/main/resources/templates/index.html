@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-	<title>¿Quién es Quién?</title>
+    <title>¿Quién es Quién?</title>
 	<link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 <body>
-	<h1>¿Quién es Quién?2</h1>
+    <div id="fondo-difuminado"></div>
+	<div id="pantalla-inicio">
+         <h1><span>¿Quién es</span><br><span>quién?</span></h1>
+         <button id="btn-empezar" onclick="iniciarJuego()">Empezar juego</button>
+      </div>
+    
+      <canvas id="canvas-juego"></canvas>
 <div id="tablero-container">
 	<div id="tablero" class = "tablero tablero-activo">
 		<div class="fila">
@@ -282,10 +288,7 @@
         </div> 
     </div>
 </div>
-    <div class="botones">
-        <form id="formPlay">
-            <button id="btnStartId" type="submit">Empezar partida</button>
-        </form>   
+    <div class="botones">      
         <form id="formSelect" style="display:none;">
             <button id="btnSelectId" type="submit">Confirmar eleccion</button>
         </form>     

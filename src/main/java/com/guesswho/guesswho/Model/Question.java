@@ -76,7 +76,7 @@ public class Question {
                 case 11:
                     return "hair='WHITE'";
                 case 12:
-                    return "hair='BALD'";
+                    return "hair!='BALD'";
             }   
         return null;
     }
