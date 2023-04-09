@@ -120,7 +120,7 @@ function enviarPregunta() {
       // La solicitud se ha completado correctamente
       const question = JSON.parse(xhr.responseText);
       const idGuesseds = question.idPersons;
-      let tiempoEspera = 6000;
+      let tiempoEspera = 5000;
       let contadorCartasGiradas = 0;
       showMensajeInfoPregunta(question.question,question.answer);
       for (const idGuess of idGuesseds) {
@@ -165,7 +165,7 @@ function enviarPreguntaEnemigo() {
       // La solicitud se ha completado correctamente
       const question = JSON.parse(xhr.responseText);
       const idGuesseds = question.idPersons;
-      let tiempoEspera = 8500;
+      let tiempoEspera = 8000;
       let contadorCartasGiradas = 0;
       setTimeout(function () {
       showMensajeInfoPregunta(question.question,question.answer);
@@ -421,6 +421,7 @@ function showMensajeInfoPregunta(pregunta,respuesta) {
   mensajeInfo.style.boxShadow = '0 0 20px #f7fc00';
 
   let i = 0;
+  let t = 2000/pregunta.length
   const intervalo = setInterval(() => {
     if (i < pregunta.length) {
       titulo.textContent += pregunta.substring(i, i+1);
@@ -440,7 +441,7 @@ function showMensajeInfoPregunta(pregunta,respuesta) {
         }
       }, 500);
     }
-  }, 100);
+  }, t);
 }
 
 function closeMensajeInfo() {
