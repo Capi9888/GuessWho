@@ -133,9 +133,11 @@ public class PersonDB {
 
     public void setWantedGamePersonByName(String nombrePersona) throws SQLException {
         try (Connection con = dataSource.getConnection()) {
-            String sql = "UPDATE GamePerson SET wanted=1 WHERE id_game=" + getGameId() + " AND id_person="
-                    + getIDPersonByName(nombrePersona) + " AND player=2";
+            String sql = "UPDATE GamePerson SET wanted=1 " +
+                         "WHERE id_game=? AND id_person=? AND player=2";
             PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, getGameId());
+            pstmt.setInt(2, getIDPersonByName(nombrePersona));
             pstmt.executeUpdate();
         }
     }
