@@ -10,8 +10,6 @@ function iniciarJuego() {
     pantallaInicio.style.display = 'none';
     fondoDifuminado.style.display = 'none';
 
-    // Aquí llamarías a la función para iniciar el juego
-
     const fakeEvent = new Event('fake'); // Crear un evento falso
     startGame(fakeEvent); // Llamar a la función startGame pasando el evento falso
   }, 1500);

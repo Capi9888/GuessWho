@@ -195,13 +195,13 @@
     overflow-x: hidden;
   }
 
-  /* Animación para mostrar el contenedor del formulario */
+
   @keyframes slideIn {
     from { transform: translateX(-100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
   }
 
-  /* Animación para ocultar el contenedor del formulario */
+
   @keyframes slideOut {
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(100%); opacity: 0; }
