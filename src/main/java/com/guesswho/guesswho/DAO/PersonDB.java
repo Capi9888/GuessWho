@@ -20,7 +20,6 @@ import com.guesswho.guesswho.Configuration.AppConfig;
 import com.guesswho.guesswho.Model.Person;
 import com.guesswho.guesswho.Model.Question;
 import com.guesswho.guesswho.Model.Person.Hair;
-import com.guesswho.guesswho.Model.Game;
 
 @Repository
 public class PersonDB {
@@ -234,85 +233,6 @@ public class PersonDB {
                 res.add(rs.getInt("id_person"));
             }
             return res;
-        }
-    }
-
-    public List<Integer> getGuessed(String hair, Integer hat, Integer glasses, Integer brownEyes,
-            Integer cheeks, Integer mustache, Integer gender, Integer gameId, Integer playerId) {
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall("{CALL sp_GetGuessed(?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
-            if (hair != null) {
-                stmt.setString(1, hair);
-            } else {
-                stmt.setNull(1, Types.VARCHAR);
-            }
-
-            if (hat != null) {
-                stmt.setInt(2, hat);
-            } else {
-                stmt.setNull(2, Types.BIT);
-            }
-
-            if (glasses != null) {
-                stmt.setInt(3, glasses);
-            } else {
-                stmt.setNull(3, Types.BIT);
-            }
-
-            if (brownEyes != null) {
-                stmt.setInt(4, brownEyes);
-            } else {
-                stmt.setNull(4, Types.BIT);
-            }
-
-            if (cheeks != null) {
-                stmt.setInt(5, cheeks);
-            } else {
-                stmt.setNull(5, Types.BIT);
-            }
-
-            if (mustache != null) {
-                stmt.setInt(6, mustache);
-            } else {
-                stmt.setNull(6, Types.BIT);
-            }
-
-            if (gender != null) {
-                stmt.setInt(7, gender);
-            } else {
-                stmt.setNull(7, Types.BIT);
-            }
-
-            if (gameId != null) {
-                stmt.setInt(8, gameId);
-            } else {
-                stmt.setNull(8, Types.BIT);
-            }
-
-            if (playerId != null) {
-                stmt.setInt(9, playerId);
-            } else {
-                stmt.setNull(9, Types.BIT);
-            }
-
-            List<Integer> guessedPersons = new ArrayList<>();
-            try (ResultSet rs = stmt.executeQuery()) {
-                boolean wanted = false;
-                while (rs.next()) {
-                    int id_person = rs.getInt("id_person");
-                    if (!wanted) {
-                        wanted = rs.getInt("wanted") == 1 ? true : false;
-                    }
-                    if (rs.getInt("guessed") == 0) {
-                        guessedPersons.add(id_person);
-                    }
-                }
-            }
-            return guessedPersons;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

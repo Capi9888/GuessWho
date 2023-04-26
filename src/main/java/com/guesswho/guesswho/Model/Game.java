@@ -1,5 +1,4 @@
 package com.guesswho.guesswho.Model;
-import java.util.List;
 import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import com.guesswho.guesswho.DAO.PersonDB;
