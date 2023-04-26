@@ -23,9 +23,9 @@ public class AppConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://containers-us-west-89.railway.app:5922/railway");
+        dataSource.setUrl("jdbc:mysql://containers-us-west-84.railway.app:7602/railway");
         dataSource.setUsername("root");
-        dataSource.setPassword("1c3S9nOlE1DfOpZdPJ9H");
+        dataSource.setPassword("EmGK95U7i7ot1O8fLDdm");
         return dataSource;
     }
 }
