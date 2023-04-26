@@ -144,6 +144,8 @@ public class PersonDB {
 
     public Question getGuessedPersons(String caracteristica1, String separador, String caracteristica2,
             boolean guessed, Connection conAux, int gameID, int player) throws SQLException {
+                try {
+                    
         int id = -1;
         Question q = new Question();
         boolean haveConnection = (conAux != null);
@@ -197,20 +199,40 @@ public class PersonDB {
                 }
             }
         }
+    } catch (Exception e) {
+        System.out.println("Exception getGuessedPersons: "+e);
+        return null;
+    }
     }
 
     private void setGuessedGamePerson(String sql, Boolean haveWanted, int player) throws SQLException {
+        try{
         try (Connection con = dataSource.getConnection()) {
             String sqlIdPerson;
             sqlIdPerson = sql.replace("gp.id_person,gp.guessed,gp.wanted", "gp.id_person");
             if (haveWanted) {
                 sqlIdPerson = sqlIdPerson.replace("AND (", "AND NOT(");
             }
-            String sqlUpdate = "UPDATE GamePerson SET guessed=1 WHERE id_game=" + getGameId() + " AND id_person in("
-                    + sqlIdPerson + ") AND player=" + player;
-            PreparedStatement pstmt = con.prepareStatement(sqlUpdate);
-            pstmt.executeUpdate();
+            String sqlTemp = "CREATE TEMPORARY TABLE temp_gp AS (" +
+            "SELECT gp.id_person FROM GamePerson gp " +
+            "LEFT JOIN Persons p ON gp.id_person = p.id_person " +
+            "WHERE gp.id_game = " + getGameId() + 
+            " AND gp.player = " + player + 
+            " AND p.id_person IN (" + sqlIdPerson + ")" +
+            ")";
+            String sqlUpdate = "UPDATE GamePerson gp " +
+              "SET gp.guessed = 1 " +
+              "WHERE gp.id_game = " + getGameId() + 
+              " AND gp.player = " + player + 
+              " AND gp.id_person IN (SELECT id_person FROM temp_gp)";
+              PreparedStatement pstmtTemp = con.prepareStatement(sqlTemp);
+              pstmtTemp.executeUpdate();
+              PreparedStatement pstmtUpdate = con.prepareStatement(sqlUpdate);
+              pstmtUpdate.executeUpdate();
         }
+    } catch (Exception e) {
+        System.out.println("Exception setGuessedGamePerson: "+e);
+    }
     }
 
     private List<Integer> getGuessedPersonsReverso(List<Integer> res) {
