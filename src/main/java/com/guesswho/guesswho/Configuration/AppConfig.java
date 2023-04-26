@@ -22,10 +22,10 @@ public class AppConfig {
     */ 
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://containers-us-west-84.railway.app:7602/railway");
-        dataSource.setUsername("root");
-        dataSource.setPassword("EmGK95U7i7ot1O8fLDdm");
+        dataSource.setDriverClassName(System.getenv("DATABASE_DRIVER_CLASS_NAME"));
+        dataSource.setUrl(System.getenv("DATABASE_URL"));
+        dataSource.setUsername(System.getenv("DATABASE_USERNAME"));
+        dataSource.setPassword(System.getenv("DATABASE_PASSWORD"));
         return dataSource;
     }
 }
