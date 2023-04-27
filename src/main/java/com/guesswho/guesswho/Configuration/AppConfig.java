@@ -10,16 +10,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public class AppConfig {
 
     @Bean
-    //Base de datos local
-   /* public DataSource dataSource() {
-       DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dataSource.setUrl("jdbc:sqlserver://localhost:58214;databaseName=GuessWho");
-        dataSource.setUsername("usersql");
-        dataSource.setPassword("usersql");
-        return dataSource;
-    }
-    */ 
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(System.getenv("DATABASE_DRIVER_CLASS_NAME"));
